@@ -1,14 +1,23 @@
 # Spotify Playlist Manager
 
-A Python script to create Spotify playlists and add songs using the Spotify API. Supports adding songs individually or in batch from a text file.
+A powerful Python tool to create Spotify playlists and add songs or artists using the Spotify API. Features a unified workflow, batch processing, and intelligent artist handling.
 
 ## Features
 
-- 🔐 Authenticate with your Spotify account
-- 📋 List existing playlists or create new ones
-- 🎵 Add songs individually or in batch
-- 📁 Import songs from a text file
-- ⏱️ Rate limiting to avoid API throttling
+- 🔐 **Authentication**: Securely connect with your Spotify account
+- 📋 **Playlist Management**: List existing playlists or create new ones
+- 🎵 **Add Songs**:
+  - **Interactive**: Add songs one by one by name
+  - **Batch File**: Import a list of songs from a text file
+  - **Manual Batch**: Paste a list of songs directly
+- 🎤 **Add Artists**:
+  - **Modes**:
+    - **Top 10**: Quickly add the artist's most popular tracks
+    - **Top N**: Add a custom number of top tracks (e.g., top 50)
+    - **All Songs**: Add every track from the artist's discography
+  - **Auto-Select**: Option to automatically pick the most popular artist match (great for batch processing)
+  - **Batch File**: Import a list of artists to process sequentially
+- ⏱️ **Rate Limiting**: Built-in delays to avoid API throttling
 
 ## Prerequisites
 
@@ -49,81 +58,87 @@ SPOTIPY_REDIRECT_URI='http://127.0.0.1:8888/callback'
 
 ## Usage
 
-### Interactive Mode (Add Songs One by One)
+### 🚀 Unified Workflow (Recommended)
+
+Run the main script to access all features in one place:
 
 ```bash
-py search.py
+py main.py
 ```
 
-1. Select or create a playlist
-2. Choose option `1` (interactive mode)
-3. Enter songs in `"Song Name - Artist"` format
-4. Repeat or exit
+This will guide you through:
+1. **Authentication**
+2. **Playlist Selection/Creation**
+3. **Main Menu**: Choose to add Songs or Artists or Exit
 
-### Batch Mode (Add from File)
+---
 
-```bash
-py search.py
-```
+### Feature Details
 
-1. Select or create a playlist
-2. Choose option `2` (file input)
-3. Enter the path to your song list file (e.g., `sample_songs.txt`)
-4. Confirm to add all songs
+#### 1. Add Songs (by Name)
+- **Interactive**: Type song names one by one (e.g., "Shape of You - Ed Sheeran").
+- **From File**: Provide a path to a text file with one song per line.
+- **Manual Batch**: Copy-paste a list of songs into the terminal.
 
-### Manual Batch Mode
-
-```bash
-py search.py
-```
-
-1. Select or create a playlist
-2. Choose option `3` (manual batch)
-3. Enter songs one per line
-4. Press Enter on a blank line to finish
-
-## Song File Format
-
-Create a text file with one song per line in this format:
-
-```
-Song Name - Artist
-Another Song - Another Artist
-Third Song - Third Artist
-```
-
-**Example (`sample_songs.txt`):**
+**Song File Format (`sample_songs.txt`):**
 ```
 Shape of You - Ed Sheeran
 Blinding Lights - The Weeknd
 Levitating - Dua Lipa
 ```
 
+#### 2. Add Artists
+- **Single Artist**: Type an artist name.
+- **Batch from File**: Provide a path to a text file with artist names.
+
+**Artist Modes:**
+- **Top 10**: Fast addition of the artist's hits.
+- **Top N**: Fetches all songs, sorts by popularity, and picks the top N.
+- **All Songs**: Adds everything (can take time for large discographies).
+
+**Auto-Select Feature:**
+- You will be asked if you want to **Auto-select the first match**.
+- **Yes**: Automatically picks the artist with the most followers (best for batch files).
+- **No**: Lets you manually choose from search results (best for obscure artists).
+
+**Artist File Format (`sample_artists.txt`):**
+```
+The Beatles
+Pink Floyd
+Led Zeppelin
+```
+
+---
+
+### Advanced Usage (Individual Scripts)
+
+You can run individual modules directly if you prefer:
+
+- **`py search.py`**: Just for adding songs.
+- **`py artist.py`**: Just for adding artists.
+- **`py playlist.py`**: To list or create playlists.
+
 ## Modules
 
-- **`auth.py`** - Handles Spotify authentication
-- **`playlist.py`** - Manages playlist creation and selection
-- **`search.py`** - Searches and adds songs to playlists
-- **`debug_playlists.py`** - Debug tool to list all playlists
+- **`main.py`**: Main entry point (Recommended).
+- **`auth.py`**: Handles Spotify authentication.
+- **`playlist.py`**: Manages playlist operations.
+- **`search.py`**: Song search and addition logic.
+- **`artist.py`**: Artist search and addition logic.
+- **`debug_playlists.py`**: Debug tool to see raw playlist data.
 
 ## Troubleshooting
 
 ### "INVALID_CLIENT" Error
-- Ensure your Redirect URI in the Spotify Dashboard **exactly** matches: `http://127.0.0.1:8888/callback`
-- Check that Client ID and Secret are correct in `.env`
+- Ensure Redirect URI in Dashboard matches `.env` exactly (`http://127.0.0.1:8888/callback`).
 
-### "Song not found" Errors
-- Verify the artist name is spelled correctly
-- Some songs may not be available in your region
-- Try using the exact artist name as shown on Spotify
-
-### Playlists Not Showing Up
-- Wait a few seconds and try again (API sync delay)
-- Ensure you're logged into the correct Spotify account
+### "Song/Artist Not Found"
+- Check spelling.
+- Try adding the artist name to the search (e.g., "Song - Artist").
 
 ### Rate Limiting
-- The script automatically adds a 3-second delay between songs
-- For large playlists (100+ songs), expect ~5-10 minutes processing time
+- The script has built-in delays (3s) between additions.
+- Adding "All Songs" for a huge artist might take a few minutes.
 
 ## License
 
