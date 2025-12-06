@@ -1,0 +1,35 @@
+# Spotify API credentials
+.env
+
+# Spotify cache (contains access tokens)
+.cache
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Personal song lists (optional - uncomment if you want to keep these private)
+# *.txt
