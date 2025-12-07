@@ -194,8 +194,8 @@ def add_albums_from_file(sp, playlist_id, file_path, auto_select=False):
 
 
 if __name__ == "__main__":
-    from auth import connect_spotify
-    from playlist import get_or_create_playlist
+    from core.auth import connect_spotify
+    from core.playlist import get_or_create_playlist
     
     try:
         sp = connect_spotify()
