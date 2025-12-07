@@ -2,6 +2,7 @@ from auth import connect_spotify
 from playlist import get_or_create_playlist
 from search import add_song_interactive, add_songs_from_list, read_songs_from_file
 from artist import add_artist_songs_to_playlist, add_artists_from_file
+from album import add_album_to_playlist, add_albums_from_file
 
 
 def main():
@@ -19,16 +20,17 @@ def main():
         # Step 2: Select or create playlist
         playlist_id = get_or_create_playlist(sp)
         
-        # Step 3: Add songs or artists
+        # Step 3: Add songs, artists, or albums
         while True:
             print("\n" + "=" * 60)
             print("WHAT WOULD YOU LIKE TO ADD?")
             print("=" * 60)
             print("1. Add songs (by name)")
             print("2. Add songs by artist")
-            print("3. Exit")
+            print("3. Add albums")
+            print("4. Exit")
             
-            choice = input("\nEnter choice (1, 2, or 3): ").strip()
+            choice = input("\nEnter choice (1, 2, 3, or 4): ").strip()
             
             if choice == "1":
                 # Add songs workflow
@@ -39,11 +41,15 @@ def main():
                 add_artists_workflow(sp, playlist_id)
             
             elif choice == "3":
+                # Add albums workflow
+                add_albums_workflow(sp, playlist_id)
+            
+            elif choice == "4":
                 print("\n✓ Done! Enjoy your playlist!")
                 break
             
             else:
-                print("Invalid choice. Please enter 1, 2, or 3.")
+                print("Invalid choice. Please enter 1, 2, 3, or 4.")
         
     except KeyboardInterrupt:
         print("\n\nOperation cancelled by user.")
@@ -194,6 +200,50 @@ def add_artists_workflow(sp, playlist_id):
         
         total = add_artists_from_file(sp, playlist_id, file_path, mode, custom_n, auto_select=auto_select)
         print(f"\n✓ Total songs added: {total}")
+    
+    else:
+        print("Invalid choice.")
+
+
+def add_albums_workflow(sp, playlist_id):
+    """
+    Workflow for adding albums.
+    """
+    print("\n" + "-" * 60)
+    print("ADD ALBUMS")
+    print("-" * 60)
+    print("1. Single album")
+    print("2. Multiple albums from file")
+    print("3. Back to main menu")
+    
+    choice = input("\nEnter choice (1, 2, or 3): ").strip()
+    
+    if choice == "3":
+        return
+    
+    # Ask about auto-select
+    print("\nWhen multiple albums match:")
+    print("1. Auto-select first match")
+    print("2. Let me choose manually")
+    
+    auto_choice = input("\nEnter choice (1 or 2, default: 2): ").strip()
+    auto_select = (auto_choice == "1")
+    
+    # Process albums
+    if choice == "1":
+        # Single album
+        album_input = input("\nEnter album in 'Album - Artist' format: ").strip()
+        if album_input:
+            added = add_album_to_playlist(sp, playlist_id, album_input, auto_select=auto_select)
+            print(f"\n✓ Added {added} tracks")
+    
+    elif choice == "2":
+        # Multiple albums from file
+        file_path = input("\nEnter the path to your album list file: ").strip()
+        file_path = file_path.strip('"').strip("'")
+        
+        total = add_albums_from_file(sp, playlist_id, file_path, auto_select=auto_select)
+        print(f"\n✓ Total tracks added: {total}")
     
     else:
         print("Invalid choice.")
