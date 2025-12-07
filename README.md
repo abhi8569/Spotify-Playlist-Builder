@@ -1,6 +1,6 @@
 # Spotify Playlist Manager
 
-A powerful Python tool to create Spotify playlists and add songs or artists using the Spotify API. Features a unified workflow, batch processing, and intelligent artist handling.
+A powerful Python tool to create Spotify playlists and add songs, artists, or albums using the Spotify API. Features both CLI and Web UI with batch processing and intelligent search.
 
 ## Features
 
@@ -22,6 +22,7 @@ A powerful Python tool to create Spotify playlists and add songs or artists usin
   - **Auto-Select**: Automatically pick best match or choose manually
   - **Batch File**: Import a list of albums to process
   - **Format**: "Album - Artist" for accurate searching
+- 🌐 **Dual Interface**: Use CLI or modern Web UI
 - ⏱️ **Rate Limiting**: Built-in delays to avoid API throttling
 
 ## Prerequisites
@@ -40,7 +41,9 @@ A powerful Python tool to create Spotify playlists and add songs or artists usin
 4. Fill in:
    - App name: (e.g., "Playlist Manager")
    - App description: (e.g., "Personal playlist management")
-   - Redirect URI: `http://127.0.0.1:8888/callback`
+   - Redirect URIs: Add **BOTH**:
+     - `http://127.0.0.1:8888/callback` (for CLI)
+     - `http://127.0.0.1:5000/callback` (for Web UI)
 5. Click **"Save"**
 6. Copy your **Client ID** and **Client Secret**
 
@@ -59,19 +62,46 @@ pip install -r requirements.txt
 SPOTIPY_CLIENT_ID='your_client_id_here'
 SPOTIPY_CLIENT_SECRET='your_client_secret_here'
 SPOTIPY_REDIRECT_URI='http://127.0.0.1:8888/callback'
+SPOTIPY_REDIRECT_URI_WEB='http://127.0.0.1:5000/callback'
+FLASK_SECRET_KEY='your-random-secret-key-here'
 ```
 
 ## Usage
 
-### 🚀 Unified Workflow (Recommended)
+### 🌐 Web UI (Recommended)
 
-Run the main script to access all features in one place:
+Modern, visual interface accessible from any browser.
 
+**Start the server:**
+```bash
+python web/app.py
+```
+
+**Access:**
+1. Open browser to `http://127.0.0.1:5000`
+2. Click **"Login with Spotify"**
+3. Select or create a playlist
+4. Use tabs to add Songs, Artists, or Albums
+
+**Features:**
+- ✅ Point-and-click interface
+- ✅ Real-time progress
+- ✅ Works on any OS
+- ✅ Paste batch lists easily
+- ✅ Auto-select enabled for speed
+
+---
+
+### 💻 CLI (Command Line)
+
+Terminal-based interface for automation and scripting.
+
+**Run the main script:**
 ```bash
 py main.py
 ```
 
-This will guide you through:
+**Workflow:**
 1. **Authentication**
 2. **Playlist Selection/Creation**
 3. **Main Menu**: Choose to add Songs, Artists, Albums, or Exit
@@ -133,37 +163,68 @@ Thriller - Michael Jackson
 
 ---
 
-### Advanced Usage (Individual Scripts)
+## Project Structure
 
-You can run individual modules directly if you prefer:
+```
+spotify-playlist/
+├── core/              # Core business logic
+│   ├── auth.py       # Spotify authentication
+│   ├── search.py     # Song search and addition
+│   ├── artist.py     # Artist operations
+│   ├── album.py      # Album operations
+│   └── playlist.py   # Playlist management
+├── web/              # Flask web application
+│   ├── app.py        # Flask routes
+│   ├── templates/    # HTML templates
+│   └── static/       # CSS & JavaScript
+├── main.py           # CLI entry point
+├── debug_playlists.py # Debug tool
+├── sample_*.txt      # Example files
+├── .env              # Your credentials
+└── requirements.txt  # Dependencies
+```
 
-- **`py search.py`**: Just for adding songs.
-- **`py artist.py`**: Just for adding artists.
-- **`py album.py`**: Just for adding albums.
-- **`py playlist.py`**: To list or create playlists.
+## CLI vs Web Comparison
 
-## Modules
-
-- **`main.py`**: Main entry point (Recommended).
-- **`auth.py`**: Handles Spotify authentication.
-- **`playlist.py`**: Manages playlist operations.
-- **`search.py`**: Song search and addition logic.
-- **`artist.py`**: Artist search and addition logic.
-- **`album.py`**: Album search and addition logic.
-- **`debug_playlists.py`**: Debug tool to see raw playlist data.
+| Feature | CLI | Web UI |
+|---------|-----|--------|
+| **Interface** | Terminal | Browser |
+| **Ease of Use** | Commands | Point & Click |
+| **Batch Operations** | File upload | Paste text |
+| **Artist Selection** | Manual or Auto | Auto (faster) |
+| **Best For** | Automation, Scripts | Interactive use |
+| **OS Requirement** | Python | Python + Browser |
 
 ## Troubleshooting
 
 ### "INVALID_CLIENT" Error
-- Ensure Redirect URI in Dashboard matches `.env` exactly (`http://127.0.0.1:8888/callback`).
+- Ensure Redirect URIs in Dashboard match `.env` exactly:
+  - CLI: `http://127.0.0.1:8888/callback`
+  - Web: `http://127.0.0.1:5000/callback`
 
-### "Song/Artist Not Found"
+### "Song/Artist/Album Not Found"
 - Check spelling.
-- Try adding the artist name to the search (e.g., "Song - Artist").
+- For songs: Use "Song - Artist" format
+- For albums: Use "Album - Artist" format
+
+### Web UI Not Loading
+- Check Flask is running: `python web/app.py`
+- Verify port 5000 is not in use
+- Check `.env` has `SPOTIPY_REDIRECT_URI_WEB` and `FLASK_SECRET_KEY`
 
 ### Rate Limiting
 - The script has built-in delays (3s) between additions.
-- Adding "All Songs" for a huge artist might take a few minutes.
+- Adding "All Songs" for a huge artist might take several minutes.
+- Web UI auto-selects artists for faster batch processing.
+
+## Docker Deployment (Future)
+
+To containerize this app:
+1. Create a `Dockerfile`  
+2. Run `docker build -t spotify-playlist-manager .`
+3. Run `docker run -p 5000:5000 spotify-playlist-manager`
+
+Flask is Docker-ready - no code changes needed!
 
 ## License
 

@@ -1,4 +1,4 @@
-from auth import connect_spotify
+from .auth import connect_spotify
 
 
 def list_user_playlists(sp):

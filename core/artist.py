@@ -284,8 +284,8 @@ def add_artists_from_file(sp, playlist_id, file_path, mode='top10', custom_n=Non
 
 
 if __name__ == "__main__":
-    from auth import connect_spotify
-    from playlist import get_or_create_playlist
+    from core.auth import connect_spotify
+    from core.playlist import get_or_create_playlist
     
     try:
         sp = connect_spotify()

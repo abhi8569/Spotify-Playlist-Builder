@@ -186,8 +186,8 @@ def read_songs_from_file(file_path):
 
 
 if __name__ == "__main__":
-    from auth import connect_spotify
-    from playlist import get_or_create_playlist
+    from core.auth import connect_spotify
+    from core.playlist import get_or_create_playlist
     
     try:
         sp = connect_spotify()

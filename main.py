@@ -1,8 +1,8 @@
-from auth import connect_spotify
-from playlist import get_or_create_playlist
-from search import add_song_interactive, add_songs_from_list, read_songs_from_file
-from artist import add_artist_songs_to_playlist, add_artists_from_file
-from album import add_album_to_playlist, add_albums_from_file
+from core.auth import connect_spotify
+from core.playlist import get_or_create_playlist
+from core.search import add_song_interactive, add_songs_from_list, read_songs_from_file
+from core.artist import add_artist_songs_to_playlist, add_artists_from_file
+from core.album import add_album_to_playlist, add_albums_from_file
 
 
 def main():
