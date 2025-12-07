@@ -17,6 +17,11 @@ A powerful Python tool to create Spotify playlists and add songs or artists usin
     - **All Songs**: Add every track from the artist's discography
   - **Auto-Select**: Option to automatically pick the most popular artist match (great for batch processing)
   - **Batch File**: Import a list of artists to process sequentially
+- 💿 **Add Albums**:
+  - Add all tracks from any album
+  - **Auto-Select**: Automatically pick best match or choose manually
+  - **Batch File**: Import a list of albums to process
+  - **Format**: "Album - Artist" for accurate searching
 - ⏱️ **Rate Limiting**: Built-in delays to avoid API throttling
 
 ## Prerequisites
@@ -69,7 +74,7 @@ py main.py
 This will guide you through:
 1. **Authentication**
 2. **Playlist Selection/Creation**
-3. **Main Menu**: Choose to add Songs or Artists or Exit
+3. **Main Menu**: Choose to add Songs, Artists, Albums, or Exit
 
 ---
 
@@ -108,6 +113,24 @@ Pink Floyd
 Led Zeppelin
 ```
 
+#### 3. Add Albums
+- **Single Album**: Type album in "Album - Artist" format.
+- **Batch from File**: Provide a path to a text file with album entries.
+
+**Format:** `Album - Artist` (e.g., "Abbey Road - The Beatles")
+- Including the artist name ensures accuracy and avoids ambiguity.
+
+**Auto-Select Feature:**
+- **Yes**: Automatically picks the first match (fastest).
+- **No**: Shows all matches, you choose manually.
+
+**Album File Format (`sample_albums.txt`):**
+```
+Abbey Road - The Beatles
+The Dark Side of the Moon - Pink Floyd
+Thriller - Michael Jackson
+```
+
 ---
 
 ### Advanced Usage (Individual Scripts)
@@ -116,6 +139,7 @@ You can run individual modules directly if you prefer:
 
 - **`py search.py`**: Just for adding songs.
 - **`py artist.py`**: Just for adding artists.
+- **`py album.py`**: Just for adding albums.
 - **`py playlist.py`**: To list or create playlists.
 
 ## Modules
@@ -125,6 +149,7 @@ You can run individual modules directly if you prefer:
 - **`playlist.py`**: Manages playlist operations.
 - **`search.py`**: Song search and addition logic.
 - **`artist.py`**: Artist search and addition logic.
+- **`album.py`**: Album search and addition logic.
 - **`debug_playlists.py`**: Debug tool to see raw playlist data.
 
 ## Troubleshooting
