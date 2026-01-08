@@ -217,14 +217,72 @@ spotify-playlist/
 - Adding "All Songs" for a huge artist might take several minutes.
 - Web UI auto-selects artists for faster batch processing.
 
-## Docker Deployment (Future)
+## Docker Deployment
 
-To containerize this app:
-1. Create a `Dockerfile`  
-2. Run `docker build -t spotify-playlist-manager .`
-3. Run `docker run -p 5000:5000 spotify-playlist-manager`
+### Quick Start (Using Docker Hub)
 
-Flask is Docker-ready - no code changes needed!
+1. Create a `.env` file with your Spotify credentials (see Environment Variables below)
+2. Run:
+
+```bash
+docker-compose up -d
+```
+
+Access at: `http://127.0.0.1:5000`
+
+### Pull from Docker Hub
+
+```bash
+# Pull the image
+docker pull thedevabi/spotify-playlist-manager:latest
+
+# Run the container
+docker run -d \
+  --name spotify-playlist-manager \
+  -p 5000:5000 \
+  --env-file .env \
+  thedevabi/spotify-playlist-manager:latest
+```
+
+### Build Locally (Alternative)
+
+```bash
+# Build the image
+docker build -t spotify-playlist-manager .
+
+# Run the container
+docker run -d \
+  --name spotify-playlist-manager \
+  -p 5000:5000 \
+  --env-file .env \
+  spotify-playlist-manager
+```
+
+### Development Mode (with hot reload)
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+```
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+```
+SPOTIPY_CLIENT_ID='your_client_id'
+SPOTIPY_CLIENT_SECRET='your_client_secret'
+SPOTIPY_REDIRECT_URI='http://127.0.0.1:8888/callback'
+SPOTIPY_REDIRECT_URI_WEB='http://127.0.0.1:5000/callback'
+FLASK_SECRET_KEY='your-secret-key'
+```
+
+> ⚠️ **Security:** Never commit `.env` to version control or include it in Docker images.
+
+### Docker Files
+
+- **`Dockerfile`**: Production image with gunicorn
+- **`docker-compose.yml`**: Pull from Docker Hub
+- **`docker-compose.dev.yml`**: Development with hot reload
+- **`.dockerignore`**: Excludes secrets and unnecessary files
 
 ## License
 

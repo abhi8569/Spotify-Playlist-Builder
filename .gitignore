@@ -1,4 +1,4 @@
-# Spotify API credentials
+# Spotify API credentials (keep out of git AND docker image)
 .env
 
 # Spotify cache (contains access tokens)
