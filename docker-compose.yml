@@ -1,0 +1,25 @@
+services:
+  spotify-playlist-manager:
+    # Pull from Docker Hub
+    image: thedevabi/spotify-playlist-manager:latest
+    container_name: spotify-playlist-manager
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=production
+      - SPOTIPY_REDIRECT_URI_WEB=http://127.0.0.1:5000/callback
+    volumes:
+      - ./.cache:/app/.cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# To build locally instead of pulling from Docker Hub:
+# Comment out 'image:' line above and uncomment 'build:' below
+# build: .

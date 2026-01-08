@@ -1,0 +1,16 @@
+# Development override - use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  spotify-playlist-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    volumes:
+      # Mount source code for hot reload
+      - ./core:/app/core
+      - ./web:/app/web
+      - ./main.py:/app/main.py
+    command: ["python", "web/app.py"]
